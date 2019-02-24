@@ -1,0 +1,33 @@
+version: '3'
+services:
+  elasticsearch:
+    container_name: elasticsearch-elk
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  logstash:
+    container_name: logstash-elk
+    image: docker.elastic.co/logstash/logstash-oss:6.2.1
+    ports:
+      - 5044:5044
+    volumes:
+      - ./logstash/:/usr/share/logstash/pipeline:ro
+
+  kibana:
+    container_name: kibana-elk
+    image: docker.elastic.co/kibana/kibana-oss:6.2.1
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"

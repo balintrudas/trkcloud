@@ -1,0 +1,220 @@
+<div fxLayoutAlign="center top" style="padding: 50px;">
+  <mat-card class="example-card" style="max-width: 800px;">
+    <div id="_html" class="markdown-body"><p><img src="/assets/about/banner.png" alt="banner"></p>
+      <h1 id="trk-spring-cloud-example-project"><a class="anchor" name="trk-spring-cloud-example-project"
+                                                   href="#trk-spring-cloud-example-project"><span
+        class="octicon octicon-link"></span></a>Trk - Spring Cloud Example Project</h1>
+      <p>An example project that demonstrates how to build a microservice-oriented application using Spring Boot, Spring
+        Cloud, Docker and Angular.</p>
+      <h2 id="demo"><a class="anchor" name="demo" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h2>
+      <p><a href="https://www.youtube.com/watch?v=Zd_8ZA15q_8"><img src="/assets/about/trk_demo.gif"
+                                                                    alt="demo video"></a></p>
+      <p>Watch this video to see it in action: <a href="https://www.youtube.com/watch?v=Zd_8ZA15q_8">Spring Cloud
+        Example
+        Project with Angular</a></p>
+      <h2 id="demonstrated-concepts-and-technology-list"><a class="anchor"
+                                                            name="demonstrated-concepts-and-technology-list"
+                                                            href="#demonstrated-concepts-and-technology-list"><span
+        class="octicon octicon-link"></span></a>Demonstrated concepts and technology list</h2>
+      <h4 id="demonstrated-concepts-backend-"><a class="anchor" name="demonstrated-concepts-backend-"
+                                                 href="#demonstrated-concepts-backend-"><span
+        class="octicon octicon-link"></span></a>Demonstrated concepts - backend:</h4>
+      <ul>
+        <li>Microservice architecture</li>
+        <li>Service discovery</li>
+        <li>Event-driven Architecture</li>
+        <li>Centralized configuration</li>
+        <li>Centralized log management</li>
+      </ul>
+      <h4 id="technology-list-backend-"><a class="anchor" name="technology-list-backend-"
+                                           href="#technology-list-backend-"><span
+        class="octicon octicon-link"></span></a>Technology
+        list - backend:</h4>
+      <ul>
+        <li>Spring Cloud Gateway</li>
+        <li>Spring Cloud Config</li>
+        <li>Spring Cloud Netflix</li>
+        <li>Spring Data Elasticsearch</li>
+        <li>Spring Boot Web Socket</li>
+        <li>Spring Boot</li>
+        <li>RabbitMQ</li>
+        <li>Docker</li>
+        <li>Redis</li>
+        <li>Elk</li>
+        <li>Testcontainers</li>
+        <li>Hibernate Spatial</li>
+        <li>PostgreSQL + PostGIS</li>
+        <li>MySQL</li>
+        <li>Jenkins</li>
+      </ul>
+      <h4 id="demonstrated-concepts-frontend-"><a class="anchor" name="demonstrated-concepts-frontend-"
+                                                  href="#demonstrated-concepts-frontend-"><span
+        class="octicon octicon-link"></span></a>Demonstrated concepts - frontend:</h4>
+      <ul>
+        <li>Single-page application (SPA) approach</li>
+        <li>Lazy Loading Feature Modules</li>
+      </ul>
+      <h4 id="technology-list-frontend-"><a class="anchor" name="technology-list-frontend-"
+                                            href="#technology-list-frontend-"><span
+        class="octicon octicon-link"></span></a>Technology
+        list - frontend:</h4>
+      <ul>
+        <li>Angular 6</li>
+        <li>Angular Material 6</li>
+        <li>Stompjs</li>
+        <li>Sockjs</li>
+        <li>Leaflet</li>
+        <li>Ngx-leaflet</li>
+        <li>RxJs</li>
+      </ul>
+      <h2 id="architecture-overview"><a class="anchor" name="architecture-overview" href="#architecture-overview"><span
+        class="octicon octicon-link"></span></a>Architecture Overview</h2>
+      <p><a href="/assets/about/architecture.jpg"><img src="/assets/about/architecture_small.png"
+                                                       alt="architecture"></a></p>
+      <h2 id="services"><a class="anchor" name="services" href="#services"><span
+        class="octicon octicon-link"></span></a>Services
+      </h2>
+      <h3 id="functional-services"><a class="anchor" name="functional-services" href="#functional-services"><span
+        class="octicon octicon-link"></span></a>Functional services</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>Service</th>
+          <th>Port</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Account Service</td>
+          <td>Random (0)</td>
+          <td>Provides API to get all details of the currently logged in user.</td>
+        </tr>
+        <tr>
+          <td>Track Service</td>
+          <td>Random (0)</td>
+          <td>Provides API for managing, starting, stopping tracks and contains a fake client to simulate driving a
+            route.
+          </td>
+        </tr>
+        <tr>
+          <td>Statistics Service</td>
+          <td>Random (0)</td>
+          <td>Performs calculations on tracks.</td>
+        </tr>
+        <tr>
+          <td>Search Service</td>
+          <td>Random (0)</td>
+          <td>Join track and statistic data and provides API for searching in them.</td>
+        </tr>
+        <tr>
+          <td>Message Service</td>
+          <td>Random (0)</td>
+          <td>Provides a WebSocket-style messaging.</td>
+        </tr>
+        </tbody>
+      </table>
+      <h3 id="infrastructure-services"><a class="anchor" name="infrastructure-services"
+                                          href="#infrastructure-services"><span class="octicon octicon-link"></span></a>Infrastructure
+        services</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>Service</th>
+          <th>Port</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Auth Service</td>
+          <td>5000</td>
+          <td>Provides OAuth2 tokens for the backend resource services and it is used for secure server-to-server
+            communication between microservices.
+          </td>
+        </tr>
+        <tr>
+          <td>Config Service</td>
+          <td>8888</td>
+          <td>Provides an centralized configuration.</td>
+        </tr>
+        <tr>
+          <td>Admin Service</td>
+          <td>8890</td>
+          <td>Used for managing and monitoring services.</td>
+        </tr>
+        <tr>
+          <td>Register Service</td>
+          <td>8761</td>
+          <td>It allows automatic detection of network locations for service instances.</td>
+        </tr>
+        <tr>
+          <td>Gateway Service</td>
+          <td>8090</td>
+          <td>Gateway service uses Spring Cloud Gateway to route requests to multiple services using a single entry
+            point.
+            Spring Cloud Gateway is necessary because Zuul doesn't support web-socket.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <h2 id="log"><a class="anchor" name="log" href="#log"><span class="octicon octicon-link"></span></a>Log</h2>
+      <p>Centralized logging can be very useful when attempting to identify problems with your servers or applications,
+        as
+        it allows you to search through all of your logs in a single place. This project use ELK stack for searching,
+        analyzing, and visualizing log data in real-time. Each service use Logback logging frameworks to send log data
+        to
+        Logstash. </p>
+      <h2 id="infrastructure-automation"><a class="anchor" name="infrastructure-automation"
+                                            href="#infrastructure-automation"><span
+        class="octicon octicon-link"></span></a>Infrastructure
+        automation</h2>
+      <p>Continuous integration and continuous delivery (CI/CD) are a key requirement for achieving success with
+        microservices.
+        Here is a simple Continuous Delivery workflow, implemented in this project:</p>
+      <p><a href="/assets/about/pipeline.jpg"><img src="/assets/about/pipeline_small.png"
+                                                   alt="architecture"></a></p>
+      <h2 id="how-to-run-all-the-things-"><a class="anchor" name="how-to-run-all-the-things-"
+                                             href="#how-to-run-all-the-things-"><span
+        class="octicon octicon-link"></span></a>How to run all the things?</h2>
+      <h3 id="external-services"><a class="anchor" name="external-services" href="#external-services"><span
+        class="octicon octicon-link"></span></a>External services</h3>
+      <h4 id="before-you-start"><a class="anchor" name="before-you-start" href="#before-you-start"><span
+        class="octicon octicon-link"></span></a>Before you start</h4>
+      <ul>
+        <li>Install Docker and Docker Compose.</li>
+        <li>Install gradle</li>
+      </ul>
+      <p>This application depends on external services that must be up and running before attempting to run the
+        application.<br>To
+        start all external services run <code>gradle dockerComposeUp</code> or start the containers manually with <code>docker-compose
+          up</code>.</p>
+      <h3 id="services"><a class="anchor" name="services" href="#services"><span
+        class="octicon octicon-link"></span></a>Services
+      </h3>
+      <p>All Spring Boot applications require already running Config Server for startup. Also, all operations from
+        Eureka
+        client may take some time to reflect in the Eureka servers and subsequently in other Eureka clients. This is
+        because
+        of the caching of the payload on the eureka server which is refreshed periodically to reflect new
+        information.</p>
+      <h4 id="starting-order-"><a class="anchor" name="starting-order-" href="#starting-order-"><span
+        class="octicon octicon-link"></span></a>Starting order:</h4>
+      <ol>
+        <li>Config Server</li>
+        <li>Register Service<br>Gateway Service<br>Admin Service<br>Auth Service<br>Account Service<br>Statistics
+          Service<br>Search Service<br>Message Service<br>Track Service
+        </li>
+      </ol>
+      <h3 id="client"><a class="anchor" name="client" href="#client"><span class="octicon octicon-link"></span></a>Client
+      </h3>
+      <p>Before you start client, make sure you have Node.js and npm installed.</p>
+      <h4 id="to-start-client-"><a class="anchor" name="to-start-client-" href="#to-start-client-"><span
+        class="octicon octicon-link"></span></a>To start client:</h4>
+      <ol>
+        <li><code>npm install</code></li>
+        <li><code>ng serve</code> or <code>npm start</code></li>
+      </ol>
+    </div>
+  </mat-card>
+</div>

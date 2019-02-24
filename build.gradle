@@ -1,0 +1,36 @@
+buildscript {
+    ext {
+        dockerComposeVersion = '0.8.4'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.avast.gradle:gradle-docker-compose-plugin:$dockerComposeVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'docker-compose'
+
+group 'hu.rb.cloud'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+//Generate jar for all module
+//gradle jar
+
+task dockerUp {}
+dockerUp.dependsOn composeDownForced
+composeDownForced.finalizedBy('composeUp')
+
+task dockerComposeUp(dependsOn: ['dockerUp', ':auth:dockerUp', ':track:dockerUp', ':search:dockerUp', ':account:composeUp', ':statistics:composeUp'])

@@ -1,0 +1,130 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Compile') {
+            steps {
+                script {
+                    def gradleVersion = genericSh("gradlew -q getVersion", true).split("\n")[2].trim()
+                    fullVersion = "${gradleVersion}-${BUILD_NUMBER}"
+                    withEnv(["VERSION_NUMBER=${fullVersion}"]) {
+                        gradlew("clean build -x test")
+                    }
+                }
+
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage("Runing unit tests") {
+                    steps {
+                        gradlew('unitTest  --info')
+                    }
+                    post {
+                        always {
+                            junit '**/build/test-results/unitTest/TEST-*.xml'
+                            publishHTML([
+                                    allowMissing         : true,
+                                    alwaysLinkToLastBuild: true,
+                                    keepAll              : true,
+                                    reportDir            : 'build/reports/tests/unitTest',
+                                    reportFiles          : 'index.html',
+                                    reportName           : 'Unit test report',
+                                    reportTitles         : 'Unit test report'])
+                        }
+                    }
+                }
+                stage("Runing integration tests") {
+                    steps {
+                        gradlew('integrationTest --info')
+                    }
+                    post {
+                        always {
+                            junit '**/build/test-results/integrationTest/TEST-*.xml'
+                            publishHTML([
+                                    allowMissing         : true,
+                                    alwaysLinkToLastBuild: true,
+                                    keepAll              : true,
+                                    reportDir            : 'build/reports/tests/integrationTest',
+                                    reportFiles          : 'index.html',
+                                    reportName           : 'Integration test report',
+                                    reportTitles         : 'Integration test report'])
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    emailext body: '${DEFAULT_CONTENT}',
+                            subject: '${DEFAULT_SUBJECT}',
+                            to: "example@exmaple.com"
+                }
+            }
+        }
+        stage('Archiving'){
+            steps {
+                archiveArtifacts artifacts: "build/libs/auth-${fullVersion}.jar", fingerprint: true
+            }
+        }
+        stage('Staging') {
+            steps {
+                script {
+                    def dockerName = "rb-auth-service"
+                    def jarPath = "build/libs/auth-${fullVersion}.jar"
+                    def port = "5000"
+                    try {
+                        genericSh("docker rm -f ${dockerName}")
+                    } catch (e) {
+                    }
+                    genericSh("docker build -t ${dockerName} --build-arg JAR_PATH=${jarPath} --build-arg EXPOSE=${port} .")
+                    genericSh("docker run --name ${dockerName} -d " +
+                            "-e CONFIG_URI=http://host.docker.internal:8888/ " +
+                            "-e EUREKA_URI=http://host.docker.internal:8761/eureka/ " +
+                            "-e USER_INFO_URI=http://host.docker.internal:5000/uaa/user " +
+                            "-e REDIS_HOST=host.docker.internal " +
+                            "-e PORT=${port} " +
+                            "-p 127.0.0.1:${port}:${port} ${dockerName}")
+                }
+            }
+        }
+        stage('Deploy approval') {
+            steps {
+                input "Deploy to production?"
+            }
+        }
+        //Fake step
+        stage('Deploy to prod') {
+            steps {
+                script {
+                    def dockerName = "rb-auth-service"
+                    def jarPath = "build/libs/auth-${fullVersion}.jar"
+                    def port = "5000"
+                    try {
+                        genericSh("docker rm -f ${dockerName}")
+                    } catch (e) {
+                    }
+                    genericSh("docker build -t ${dockerName} --build-arg JAR_PATH=${jarPath} --build-arg EXPOSE=${port} .")
+                    genericSh("docker run --name ${dockerName} -d " +
+                            "-e CONFIG_URI=http://host.docker.internal:8888/ " +
+                            "-e EUREKA_URI=http://host.docker.internal:8761/eureka/ " +
+                            "-e USER_INFO_URI=http://host.docker.internal:5000/uaa/user " +
+                            "-e REDIS_HOST=host.docker.internal " +
+                            "-e PORT=${port} " +
+                            "-p 127.0.0.1:${port}:${port} ${dockerName}")
+                }
+            }
+        }
+    }
+}
+
+def gradlew(String... args) {
+    genericSh("./gradlew ${args.join(' ')} -s")
+}
+
+def genericSh(cmd, stdout = false) {
+    if (Boolean.valueOf(env.UNIX)) {
+        sh returnStdout: stdout, script: cmd
+    } else {
+        bat returnStdout: stdout, script: cmd
+    }
+}

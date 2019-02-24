@@ -1,0 +1,14 @@
+<div style="height: 100%;" fxLayout="column">
+  <div fxFlex="50">
+    <div class="leaflet-map" style="height: 100%;"
+         leaflet
+         (leafletMapReady)="onMapReady($event)"
+         [leafletOptions]="options">
+        <div *ngIf="layer!=null" [leafletLayer]="layer"></div>
+        <div *ngIf="vehicleMarker!=null" [leafletLayer]="vehicleMarker"></div>
+    </div>
+  </div>
+  <div fxFlex="50" style="overflow-y: auto;" fxLayout="column">
+    <grid fxLayout="column" style="height: 100%;" (rowClick)="rowClickHandler($event)" [(selectedRow)]="selectedRow"></grid>
+  </div>
+</div>

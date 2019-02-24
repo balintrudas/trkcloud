@@ -1,0 +1,32 @@
+.login-container {
+  background-color: #ffa500;
+  & .login-card {
+    background-color: transparent;
+    box-shadow: none;
+    max-width: 400px;
+    .login-btn {
+      margin-top: 45px;
+    }
+    .login-error {
+      text-align: center;
+      pointer-events: none;
+    }
+    & ::ng-deep mat-chip {
+      background-color: #b8003e;
+      color: white;
+    }
+  }
+  & ::ng-deep.mat-focused {
+    & input{
+      caret-color: black;
+    }
+    & label {
+      color: black !important;
+    }
+    & .mat-form-field-underline {
+      & span {
+        background-color: black !important;
+      }
+    }
+  }
+}

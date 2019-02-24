@@ -1,0 +1,51 @@
+<nav>
+
+</nav>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(breakPointHandler | async) ? 'dialog' : 'navigation'"
+    [mode]="(breakPointHandler | async) ? 'over' : 'side'"
+    [opened]="!(breakPointHandler | async)">
+    <mat-toolbar>
+      <img class="logo" src="/assets/logo_menu.png"/>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" routerLinkActive="active" (click)="toggle(drawer)"
+         [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon mat-list-icon>track_changes</mat-icon>
+        <p mat-line>TRACKING</p>
+        <div class="active-bar"></div>
+      </a>
+      <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="toggle(drawer)">
+        <mat-icon mat-list-icon>info</mat-icon>
+        <p mat-line>ABOUT</p>
+        <div class="active-bar"></div>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div fxFill="" fxLayout="column">
+      <mat-toolbar fxFlex="64px">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="breakPointHandler | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <h2>{{pageTitle | uppercase}}</h2>
+        <span class="spacer"></span>
+        <button matTooltip="Sign out" mat-icon-button (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+      </mat-toolbar>
+      <div class="content" style="overflow-y: auto;" fxFlex="1 1 calc(100% - 64px)">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

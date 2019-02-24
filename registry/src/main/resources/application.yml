@@ -1,0 +1,32 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+  server:
+    enableSelfPreservation: false
+server:
+  port: ${PORT:8761}
+
+spring:
+  application:
+    name: REGISTER-SERVICE
+  boot:
+    admin:
+      client:
+        url: ${ADMIN_CLIENT_URL:http://localhost:8890}
+        username: admin
+        password: password
+        instance:
+          metadata:
+            user:
+              name: actuator
+              password: password
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

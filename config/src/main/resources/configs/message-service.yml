@@ -1,0 +1,54 @@
+server:
+  port: ${PORT:0}
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    metadata-map:
+      user:
+        name: actuator
+        password: password
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+feign:
+  hystrix:
+    enabled: false
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+security:
+  oauth2:
+    client:
+      clientId: server
+      clientSecret: secret
+      accessTokenUri: ${ACCESS_TOKEN_URI:http://localhost:5000/oauth/token}
+      grant-type: client_credentials
+      scope: server
+    resource:
+      user-info-uri: ${USER_INFO_URI:http://localhost:5000/uaa/user}
+
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        trackSaveChannel:
+          destination: track.save
+          group: trackGroup
+        statsTrackChannel:
+          destination: stats.track
+          group: statsGroup

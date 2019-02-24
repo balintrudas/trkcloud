@@ -1,0 +1,13 @@
+server:
+  port: 8890
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: true
+
+spring:
+  security:
+    user:
+      name: admin
+      password: password

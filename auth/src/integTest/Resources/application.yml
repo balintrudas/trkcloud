@@ -1,0 +1,11 @@
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+      user-info-uri: http://localhost:5000/uaa/user
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

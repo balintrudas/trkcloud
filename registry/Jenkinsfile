@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Compile') {
+            steps {
+                script {
+                    def gradleVersion = genericSh("gradlew -q getVersion", true).split("\n")[2].trim()
+                    fullVersion = "${gradleVersion}-${BUILD_NUMBER}"
+                    withEnv(["VERSION_NUMBER=${fullVersion}"]) {
+                        gradlew("clean build -x test")
+                    }
+                }
+
+            }
+        }
+        stage('Archiving'){
+            steps {
+                archiveArtifacts artifacts: "build/libs/registry-${fullVersion}.jar", fingerprint: true
+            }
+        }
+        stage('Staging') {
+            steps {
+                script {
+                    def dockerName = "rb-registry-service"
+                    def jarPath = "build/libs/registry-${fullVersion}.jar"
+                    def port = "8761"
+                    try {
+                        genericSh("docker rm -f ${dockerName}")
+                    } catch (e) {
+                    }
+                    genericSh("docker build -t ${dockerName} --build-arg JAR_PATH=${jarPath} --build-arg EXPOSE=${port} .")
+                    genericSh("docker run --name ${dockerName} -d " +
+                            "-e CONFIG_URI=http://host.docker.internal:8888/ " +
+                            "-e ADMIN_CLIENT_URL=http://host.docker.internal:8890 " +
+                            "-e PORT=${port} " +
+                            "-p 127.0.0.1:${port}:${port} ${dockerName}")
+                }
+            }
+        }
+        stage('Deploy approval') {
+            steps {
+                input "Deploy to production?"
+            }
+        }
+        //Fake step
+        stage('Deploy to prod') {
+            steps {
+                script {
+                    def dockerName = "rb-registry-service"
+                    def jarPath = "build/libs/registry-${fullVersion}.jar"
+                    def port = "8761"
+                    try {
+                        genericSh("docker rm -f ${dockerName}")
+                    } catch (e) {
+                    }
+                    genericSh("docker build -t ${dockerName} --build-arg JAR_PATH=${jarPath} --build-arg EXPOSE=${port} .")
+                    genericSh("docker run --name ${dockerName} -d " +
+                            "-e CONFIG_URI=http://host.docker.internal:8888/ " +
+                            "-e ADMIN_CLIENT_URL=http://host.docker.internal:8890 " +
+                            "-e PORT=${port} " +
+                            "-p 127.0.0.1:${port}:${port} ${dockerName}")
+                }
+            }
+        }
+    }
+}
+
+def gradlew(String... args) {
+    genericSh("./gradlew ${args.join(' ')} -s")
+}
+
+def genericSh(cmd, stdout = false) {
+    if (Boolean.valueOf(env.UNIX)) {
+        sh returnStdout: stdout, script: cmd
+    } else {
+        bat returnStdout: stdout, script: cmd
+    }
+}

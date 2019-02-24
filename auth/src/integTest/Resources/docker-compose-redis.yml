@@ -1,0 +1,7 @@
+version: '2'
+services:
+  rabbitmq:
+    container_name: redis-integtest
+    image: redis
+    ports:
+      - "6379:6379"

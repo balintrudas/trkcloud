@@ -1,0 +1,11 @@
+rootProject.name = 'cloud-project'
+startParameter.continueOnFailure = true
+
+include 'registry'
+include 'auth'
+include 'gateway'
+include 'track'
+include 'search'
+include 'account'
+include 'message'
+include 'statistics'

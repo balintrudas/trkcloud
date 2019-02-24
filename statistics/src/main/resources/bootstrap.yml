@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: statistics-service
+  cloud:
+    config:
+      uri: ${CONFIG_URI:http://localhost:8888/}
+      fail-fast: true
+      password: password
+      username: user

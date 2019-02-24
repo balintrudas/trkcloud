@@ -1,0 +1,70 @@
+server:
+  port: ${PORT:8090}
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    metadata-map:
+      user:
+        name: actuator
+        password: password
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: auth-service
+        uri: lb://auth-service
+        predicates:
+        - Path=/api/uaa/**
+        filters:
+        - RewritePath=/api/uaa/(?<segment>.*), /$\{segment}
+
+      - id: track-service
+        uri: lb://track-service
+        predicates:
+        - Path=/api/track/**
+        filters:
+        - RewritePath=/api/track/(?<segment>.*), /$\{segment}
+
+      - id: search-service
+        uri: lb://search-service
+        predicates:
+        - Path=/api/search/**
+        filters:
+        - RewritePath=/api/search/(?<segment>.*), /$\{segment}
+
+      - id: account-service
+        uri: lb://account-service
+        predicates:
+        - Path=/api/account/**
+        filters:
+        - RewritePath=/api/account/(?<segment>.*), /$\{segment}
+
+      - id: message-service
+        uri: lb://message-service
+        predicates:
+        - Path=/api/message/**
+        filters:
+        - RewritePath=/api/message/(?<segment>.*), /$\{segment}
+
+      - id: websocket-message-service
+        uri: lb://message-service
+        predicates:
+        - Path=/socket/**
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,43 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-orange: (
+  50: #ffa500,
+  100: #ffa500,
+  200: #ffa500,
+  300: #ffa500,
+  400: #ffa500,
+  500: #ffa500,
+  600: #ffa500,
+  700: #ffa500,
+  800: #ffa500,
+  900: #ffa500,
+  A100: #ffa500,
+  A200: #ffa500,
+  A400: #ffa500,
+  A700: #ffa500,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: black,
+    600: black,
+    700: black,
+    800: black,
+    900: black,
+    A100: black,
+    A200: black,
+    A400: black,
+    A700: black,
+  )
+);
+
+
+$primary: mat-palette($my-orange,200);
+$accent: mat-palette($mat-pink,200);
+
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);

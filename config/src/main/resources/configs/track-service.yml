@@ -1,0 +1,65 @@
+server:
+  port: ${PORT:0}
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    metadata-map:
+      user:
+        name: actuator
+        password: password
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+
+security:
+  oauth2:
+    client:
+      clientId: server
+      clientSecret: secret
+      accessTokenUri: ${ACCESS_TOKEN_URI:http://localhost:5000/oauth/token}
+      grant-type: client_credentials
+      scope: server
+    resource:
+      user-info-uri: ${USER_INFO_URI:http://localhost:5000/uaa/user}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: ${DB_URI:jdbc:postgresql://localhost:5432/trackdb}
+    username: root
+    password: root
+    driverClassName: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG94Dialect
+    hibernate:
+      ddl-auto: create-drop
+  cloud:
+    stream:
+      bindings:
+        trackSaveChannel:
+          destination: track.save
+          contentType: application/json
+          group: trackGroup
+      default:
+          contentType: application/json
+

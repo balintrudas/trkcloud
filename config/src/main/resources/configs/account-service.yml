@@ -1,0 +1,49 @@
+server:
+  port: ${PORT:0}
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: ${DB_URI:jdbc:mysql://localhost:3306/account}
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    metadata-map:
+      user:
+        name: actuator
+        password: password
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+feign:
+  hystrix:
+    enabled: false
+
+security:
+  oauth2:
+    client:
+      clientId: server
+      clientSecret: secret
+      accessTokenUri: ${ACCESS_TOKEN_URI:http://localhost:5000/oauth/token}
+      grant-type: client_credentials
+      scope: server
+    resource:
+      user-info-uri: ${USER_INFO_URI:http://localhost:5000/uaa/user}

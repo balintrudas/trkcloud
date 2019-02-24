@@ -1,0 +1,23 @@
+<div fxFlexFill fxLayoutAlign="center center" fxLayout="column" class="login-container">
+  <img style="width: 160px;margin: 20px;" src="/assets/logo.png"/>
+  <div style="width: 100%;" fxLayout="row"  fxLayoutAlign="center center">
+    <mat-card class="login-card" fxFlex="90" fxFlex.gt-sm="60" fxFlex.gt-md="30">
+      <h2 class="mat-primary">Login</h2>
+      <form (ngSubmit)="lform.form.valid && onSubmit()" class="example-form" fxLayout="column" class="login-container"
+            #lform="ngForm">
+        <mat-form-field color="accent" class="example-full-width">
+          <input required placeholder="Username" matInput [(ngModel)]="user.username" type="text" name="username"/>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input required placeholder="Password" matInput [(ngModel)]="user.password" type="password" name="password"/>
+        </mat-form-field>
+        <mat-chip-list fxFlex="100">
+          <mat-chip class="login-error" fxFlex="100" *ngIf="loginErrorMessage" color="accent" selected>
+            {{loginErrorMessage}}
+          </mat-chip>
+        </mat-chip-list>
+        <button class="login-btn" type="submit" mat-flat-button color="primary">Login</button>
+      </form>
+    </mat-card>
+  </div>
+</div>

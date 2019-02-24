@@ -1,0 +1,57 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.14.RELEASE'
+        dockerComposeVersion = '0.8.4'
+        projectVersion = '0.1'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "com.avast.gradle:gradle-docker-compose-plugin:$dockerComposeVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker-compose'
+
+archivesBaseName = 'config'
+group = 'hu.rb.cloud.config'
+version = System.getenv("VERSION_NUMBER") ?: "${projectVersion}"
+sourceCompatibility = 1.8
+
+task getVersion {
+    doLast {
+        println projectVersion
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springCloudVersion = 'Edgware.SR4'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.cloud:spring-cloud-config-server')
+    compile('org.springframework.cloud:spring-cloud-starter-sleuth')
+    compile('net.logstash.logback:logstash-logback-encoder:4.9')
+    compile('ch.qos.logback:logback-classic:1.2.3')
+    compile('ch.qos.logback:logback-core:1.2.3')
+    compile('org.springframework.boot:spring-boot-starter')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

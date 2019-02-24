@@ -1,0 +1,41 @@
+
+
+[mat-row]{
+  background: transparent !important;
+}
+
+.mat-row {
+  cursor: pointer;
+  background: transparent;
+  &:hover {
+    background: rgba(149, 149, 149, 0.1) !important;
+  }
+
+  &.highlight {
+    background-color: rgba(149, 149, 149, 0.1);
+    font-weight: 500;
+    box-shadow: 0px 3px 21px -5px rgba(0, 0, 0, 0.41);
+    &.live-row{
+      & .live-row-data{
+        color: #ff0052;
+      }
+    }
+  }
+}
+
+.sticky-table {
+  & .mat-header-row {
+    & th {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 2;
+    }
+  }
+  & .mat-paginator {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    z-index: 2;
+  }
+}
